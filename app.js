@@ -5,10 +5,8 @@ const swaggerUi = require("swagger-ui-express");
 require("dotenv").config();
 
 const usersRouter = require("./routes/users");
-const petRouter = require("./routes/pet");
-const sponsorsRouter = require("./routes/sponsors");
-const newsRouter = require("./routes/news");
-const noticeRouter = require("./routes/notice");
+const patientRouter = require("./routes/patient");
+const doctorRouter = require("./routes/doctor");
 
 const swaggerDocument = require("./swagger.json");
 
