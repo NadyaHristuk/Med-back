@@ -13,8 +13,7 @@ require("dotenv").config();
 
 module.exports.userInfo = async (req, res) => {
   const _id = req.user;
-  const user1 = await User.findById(_id,{'UserInfo.about': 1 })
-  const user = await User.findById(_id, {userInfo: 1})
+  const user = await User.findById(_id)
   res.status(200).json(user);
 };
 
@@ -28,34 +27,27 @@ module.exports.userRegister = (req, res, next) => {
         message: error.message,
       });
     }
-    const { name, email, password, city, phone } = req.body;
-    User.findOne({ email }).then((user) => {
+    const { name, password, phone, role } = req.body;
+    User.findOne({ phone }).then((user) => {
       if (user) {
         res.status(409).json({
           success: false,
-          message: `User with email ${email} already exist`,
+          message: `User with phone ${phone} already exist`,
         });
       }
       const newUser = new User({
         name,
-        email,
-        city,
         phone,
+        role
       });
       newUser.setPassword(password);
 
       newUser.save().then((user) => {
         const {
           _id,
-          name,
-          email,
-          city,
+          name,    
           phone,
-          birthday,
-          userImgUrl,
-          userPets,
-          ownNotices,
-          favoriteNotices,
+          role
         } = user;
         const payload = {
           id: _id,
@@ -70,14 +62,8 @@ module.exports.userRegister = (req, res, next) => {
         const userData = {
           id: String(_id),
           name,
-          email,
-          city,
           phone,
-          birthday,
-          userImgUrl,
-          userPets,
-          ownNotices,
-          favoriteNotices,
+          role,
           data: {
             accessToken,
             refreshToken,
@@ -107,8 +93,8 @@ module.exports.userLogin = async (req, res, next) => {
         message: error.message,
       });
     }
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { phone, password } = req.body;
+    const user = await User.findOne({ phone });
 
     if (!user || !user.comparePassword(password)) {
       res.status(401).json({
@@ -129,26 +115,14 @@ module.exports.userLogin = async (req, res, next) => {
     const {
       _id,
       name,
-      city,
-      phone,
-      birthday,
-      userImgUrl,
-      userPets,
-      ownNotices,
-      favoriteNotices,
+      role
     } = user;
 
     return res.json({
       id: String(_id),
       name,
-      email,
-      city,
       phone,
-      birthday,
-      userImgUrl,
-      userPets,
-      ownNotices,
-      favoriteNotices,
+      role,
       data: {
         accessToken,
         refreshToken,
