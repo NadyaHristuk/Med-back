@@ -9,7 +9,7 @@ router.post("/register", UserController.userRegister);
 router.post("/login", UserController.userLogin);
 router.post("/refresh", UserController.refreshTokens);
 router.get("/info", authMiddleware, UserController.userInfo);
-// router.patch('/updateInfo'),authMiddleware, UserController.updateInfo);
+router.patch('/updateinfo',authMiddleware, UserController.updateInfo);
 //
 // router.get("/history", authMiddleware, UserController.userHistory);
 // router.get("/history/:id", authMiddleware, UserController.userHistoryById);

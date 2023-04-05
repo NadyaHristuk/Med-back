@@ -14,7 +14,7 @@
       "url": "https://project-pets-api.herokuapp.com/"
     },
     {
-      "url": "http://localhost:3005"
+      "url": "http://localhost:3007"
     }
   ],
   "tags": [
@@ -190,13 +190,20 @@
         }
       }
     },
-    "/user/info": {
+    "/user/info/{id}": {
       "get": {
         "tags": [
           "UserAuth"
         ],
         "summary": "Get current user info",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The Notice ID"
+          }
+        ],
         "security": [
           {
             "Bearer": []
@@ -754,10 +761,9 @@
         "type": "object",
         "required": [
           "name",
-          "email",
+          "phone",
           "password",
-          "city",
-          "phone"
+          "role"
         ],
         "properties": {
           "name": {
@@ -765,25 +771,20 @@
             "description": "User's name",
             "format": "name"
           },
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
           "password": {
             "type": "string",
             "description": "User's password",
             "example": "qwerty123"
           },
-          "city": {
+          "role": {
             "type": "string",
-            "description": "User's city",
-            "example": "Kiev"
+            "description": "User's role",
+            "example": "doctor"
           },
           "phone": {
             "type": "string",
             "description": "User's phone",
-            "example": 3809739345679
+            "example": "3809739345679"
           }
         }
       },
@@ -794,14 +795,9 @@
             "type": "string",
             "description": "User's name"
           },
-          "email": {
+          "role": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "city": {
-            "type": "string",
-            "description": "User's city"
+            "description": "User's role"
           },
           "phone": {
             "type": "string",
@@ -814,24 +810,6 @@
           "userImgUrl": {
             "type": "string",
             "description": "User's phone"
-          },
-          "userPets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PetResponse"
-            }
-          },
-          "ownNotices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetOneNotice"
-            }
-          },
-          "favoriteNotices": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetOneNotice"
-            }
           },
           "data": {
             "type": "object",
@@ -865,15 +843,16 @@
       },
       "LoginRequest": {
         "required": [
-          "email",
+          "phone",
           "password"
         ],
         "type": "object",
         "properties": {
-          "email": {
+          "phone": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
+            "description": "User's phone",
+            "example": "3809739345679",
+            "format": "3809739345679"
           },
           "password": {
             "type": "string",

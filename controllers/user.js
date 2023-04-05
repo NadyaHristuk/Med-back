@@ -10,10 +10,23 @@ const {
 } = require("../models/User.model.js");
 
 require("dotenv").config();
-
+module.exports.updateInfo = async (req, res) => {
+  console.log("updateInfo")
+  const data = req.body;
+  const user = await User.findByIdAndUpdate(req.user,{userInfo: {...data}})
+  console.log(data);
+  res.status(200).json(user);
+}
 module.exports.userInfo = async (req, res) => {
-  const _id = req.user;
-  const user = await User.findById(_id)
+  let _id;
+  if (req?.query?.id) {
+    _id = req.query.id
+  }else {
+    _id = req.user;
+  };
+
+  console.log("_id --- : ",_id)
+  const user = await User.findById(_id,{userInfo:1})
   res.status(200).json(user);
 };
 
