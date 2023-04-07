@@ -34,9 +34,9 @@ const UserSchema = new Schema(
             trim: true,
             default: null,
         },
+        role: {type: String},
         userInfo: {
             coast: Number,
-            role: String ,
             birthday: String,
             userImgUrl: String,
             gender: String,
@@ -59,10 +59,9 @@ const UserSchema = new Schema(
             patient: "info"
         },
         userAnalyzes: Array,
-        appointment: Array,
+
     },
     {
-        timestamps: true,
     }
 );
 

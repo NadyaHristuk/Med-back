@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
-const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
+const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY,ACCESS_TOKEN_EXPIRES_IN } = process.env;
 
 const {
   User,
@@ -11,12 +11,26 @@ const {
 
 require("dotenv").config();
 module.exports.updateInfo = async (req, res) => {
-  console.log("updateInfo")
+  console.log(new Date())
   const data = req.body;
-  const user = await User.findByIdAndUpdate(req.user,{userInfo: {...data}})
-  console.log(data);
-  res.status(200).json(user);
+  const user = await User.findById(req.user,{userInfo: 1})
+
+  console.log(user);
+  let new_userInfo = {user,...data}
+  new_userInfo  = await User.findByIdAndUpdate(req.user,{"user.userInfo": {...new_userInfo}})
+  res.status(200).json(new_userInfo);
 }
+module.exports.updateExperience = async (req, res) => {
+
+  if (req?.query?.id) {
+    const exp = User.findById(req.user,{'userInfo.experience':1});
+    // console.log("req?.query?.id: ",req?.query?.id)
+  }
+
+  // console.log("updateExperience")
+  res.status(200).json({})
+}
+
 module.exports.userInfo = async (req, res) => {
   let _id;
   if (req?.query?.id) {
@@ -119,7 +133,7 @@ module.exports.userLogin = async (req, res, next) => {
       id: user._id,
     };
     const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "20d",
     });
     const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET_KEY, {
       expiresIn: "30d",
