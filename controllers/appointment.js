@@ -27,14 +27,13 @@ module.exports.getAppointment = async (req, res) => {
 
 module.exports.updateAppointment = async (req, res) => {
     console.log("updateAppointment: ", req.params.id);
-    const appointment = await Appointment.findByIdAndUpdate({_id: req.params.id}, {...req.body}, {returnDocument: "after"})
+    const appointment = await Appointment.findByIdAndUpdate({_id: ObjectId(req.params.id)}, {...req.body}, {returnDocument: "after"})
     return res.status(200).json(appointment);
 }
 
 module.exports.addAppointment = async (req, res) => {
     const patient = ObjectId(req.user.role === "patient" ? req.user._id : req.body.patient);
     const doctor = ObjectId(req.user.role === "doctor" ? req.user._id : req.body.doctor);
-    console.log("addAppointment role: ", req.user);
     const query = {
         $and: [
             {
@@ -57,7 +56,6 @@ module.exports.addAppointment = async (req, res) => {
 }
 
 module.exports.deleteAppointment = async (req, res) => {
-    console.log("deleteAppointment: ", req.user);
-    const appointment = await Appointment.findByIdAndDelete({_id: req.params.id})
+    const appointment = await Appointment.findByIdAndDelete({_id: ObjectId(req.params.id)})
     return res.status(200).json(appointment);
 }
