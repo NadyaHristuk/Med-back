@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ColleagueSchema = new Schema(
     {
         owner: mongoose.Types.ObjectId,
-        Colleague: mongoose.Types.ObjectId,
+        colleague: mongoose.Types.ObjectId,
     }
 );
 
