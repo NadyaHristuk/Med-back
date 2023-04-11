@@ -34,7 +34,9 @@ module.exports = {
           message: "Token is expired",
         });
       }
+
       req.user = userFind;
+      console.log("req.user: ",req.user)
       next();
     } catch (error) {
       console.log(error);

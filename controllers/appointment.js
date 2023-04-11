@@ -1,19 +1,27 @@
 const {Appointment} = require("../models/Appointment.model");
 const mongoose = require("mongoose");
+const {UserInfo} = require("../models/Info.model");
 const ObjectId = mongoose.Types.ObjectId;
 
 module.exports.getAppointment = async (req, res) => {
-    const query = {
-        [req.user.role]: ObjectId(req.user._id),
+    let query;
+    let appointment;
+    if (req?.params?.id) {
+        query = {_id: ObjectId(req.params.id)}
+        appointment = await Appointment.findOne(query)
+    } else {
+        query = {
+            [req.user.role]: ObjectId(req.user._id),
+        }
+        if (req?.body?.date?.start) {
+            query.date = {$gte: req.body.date.start};
+        }
+        if (req?.body?.date?.end) {
+            query.date = {...query.date, $lt: req.body.date.end};
+        }
+        appointment = await Appointment.find(query)
     }
-    if (req?.body?.date?.start) {
-        query.date = {$gte:req.body.date.start};
-    }
-    if (req?.body?.date?.end) {
-        query.date = {...query.date,$lt:req.body.date.end};
-    }
-    console.log(query)
-    const appointment = await Appointment.find(query)
+
     return res.status(200).json(appointment);
 }
 
@@ -24,11 +32,28 @@ module.exports.updateAppointment = async (req, res) => {
 }
 
 module.exports.addAppointment = async (req, res) => {
-    console.log("addAppointment: ", req.user);
-    // const app = await Appointment.findOne( { $or: [ { patient: ObjectId(req.body.patient) }, { doctor: ObjectId(req.user._id) } ]},{$and:{date: req.body.date} })
-    // console.log(app);
-    // const appointment = await Appointment.create({...req.body})
-    return res.status(200).json({});
+    const patient = ObjectId(req.user.role === "patient" ? req.user._id : req.body.patient);
+    const doctor = ObjectId(req.user.role === "doctor" ? req.user._id : req.body.doctor);
+    console.log("addAppointment role: ", req.user);
+    const query = {
+        $and: [
+            {
+                $or: [
+                    {patient},
+                    {doctor}
+                ]
+            },
+            {
+                date: req.body.date
+            }
+        ]
+    }
+    const app = await Appointment.findOne(query)
+    if (!app) {
+        const newApp = await Appointment.collection.insertOne({patient, doctor, date: new Date(req.body.date)})
+        return res.status(200).json({newApp});
+    }
+    return res.status(200).json({acknowledged: false, date: "busy", item: app._id});
 }
 
 module.exports.deleteAppointment = async (req, res) => {

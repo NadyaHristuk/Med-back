@@ -4,7 +4,6 @@ const router = express.Router();
 const { authMiddleware } = require("../middlewares/authMiddleware");
 
 const InfoController = require("../controllers/info.js");
-const UserController = require("../controllers/user");
 const uploadCloud = require("../middlewares/uploadMiddleware");
 
 router.get("/", authMiddleware, InfoController.getInfo);

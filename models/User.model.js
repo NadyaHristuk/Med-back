@@ -34,8 +34,11 @@ const UserSchema = new Schema(
             trim: true,
             default: null,
         },
+        role: {
+            type: String,
+            required: [true, "Role (patient/doctor) is required"],
+        },
         userImgUrl: String,
-        role: {type: String},
     },
 );
 
