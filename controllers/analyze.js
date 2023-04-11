@@ -1,13 +1,13 @@
-const {Analize} = require("../models/Analyze.model");
+const {Analyze} = require("../models/Analyze.model");
 
 module.exports.getAnalyze = async (req, res) => {
-    console.log("getExperience: ",req.user);
+    console.log("getAnalyze: ",req.user);
     const analyze = await Analyze.find({owner: req.user._id})
     return res.status(200).json(analyze);
 }
 
 module.exports.updateAnalyze = async (req, res) => {
-    console.log("updateExperience: ",req.params.id);
+    console.log("updateAnalyze: ",req.params.id);
     const analyze = await Analyze.findByIdAndUpdate({_id: req.params.id},{ ...req.body }, {returnDocument: "after"})
     return res.status(200).json(analyze);
 }

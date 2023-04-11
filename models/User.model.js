@@ -1,7 +1,7 @@
 const {Schema, model} = require("mongoose");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
-const {types} = require("joi");
+// const {types} = require("joi");
 
 require("dotenv").config();
 
@@ -34,35 +34,9 @@ const UserSchema = new Schema(
             trim: true,
             default: null,
         },
+        userImgUrl: String,
         role: {type: String},
-        userInfo: {
-            coast: Number,
-            birthday: String,
-            userImgUrl: String,
-            gender: String,
-            about: String,
-            specialization: String,
-            category: String,
-            experience: [{
-                ImgUrl: String,
-                title: String,
-                description: String,
-                date: {
-                    start: String,
-                    end: String,
-                },
-            }],
-            colleagues: [],
-            schedule: [{
-                }],
-        } | {
-            patient: "info"
-        },
-        userAnalyzes: Array,
-
     },
-    {
-    }
 );
 
 const joiRegisterSchema = Joi.object({
@@ -77,7 +51,7 @@ const joiRegisterSchema = Joi.object({
         .max(12)
         // .pattern(passwordRegExp)
         .error(
-            (errors) =>
+            () =>
                 new Error(
                     "the passport must contain Latin letters: at least 1 lowercase, 1 uppercase, 1 number and be at least 6 and no more than 12 characters"
                 )
@@ -95,7 +69,7 @@ const joiLoginSchema = Joi.object({
         .max(12)
         // .pattern(passwordRegExp)
         .error(
-            (errors) =>
+            () =>
                 new Error(
                     "the passport must contain Latin letters: at least 1 lowercase, 1 uppercase, 1 number and be at least 6 and no more than 12 characters"
                 )

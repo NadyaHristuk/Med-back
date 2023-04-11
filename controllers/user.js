@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
+const mongoose = require('mongoose');
 
 const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY,ACCESS_TOKEN_EXPIRES_IN } = process.env;
 
@@ -8,7 +9,9 @@ const {
   joiLoginSchema,
   joiRegisterSchema,
 } = require("../models/User.model.js");
-
+const {
+  UserInfo,
+} = require("../models/Info.model.js");
 require("dotenv").config();
 module.exports.updateInfo = async (req, res) => {
   console.log(new Date())
@@ -31,18 +34,7 @@ module.exports.updateExperience = async (req, res) => {
   res.status(200).json({})
 }
 
-module.exports.userInfo = async (req, res) => {
-  let _id;
-  if (req?.query?.id) {
-    _id = req.query.id
-  }else {
-    _id = req.user;
-  };
 
-  console.log("_id --- : ",_id)
-  const user = await User.findById(_id,{userInfo:1})
-  res.status(200).json(user);
-};
 
 module.exports.userRegister = (req, res, next) => {
 
@@ -126,7 +118,7 @@ module.exports.userLogin = async (req, res, next) => {
     if (!user || !user.comparePassword(password)) {
       res.status(401).json({
         success: false,
-        message: "Email doesn't exist / Password is wrong",
+        message: "Password is wrong",
       });
     }
     const payload = {

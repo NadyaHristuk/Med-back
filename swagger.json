@@ -190,7 +190,7 @@
         }
       }
     },
-    "/user/info/{id}": {
+    "/info/{id}": {
       "get": {
         "tags": [
           "UserAuth"
