@@ -1,18 +1,15 @@
 const {Schema, model} = require("mongoose");
-
+const mongoose = require("mongoose");
 const ExperienceSchema = new Schema(
     {
-        owner: {
-            type: Schema.Types.ObjectId
-        },
-    ImgUrl: String,
-    title: String,
-    description: String,
-    date: {
-        start: String,
-        end: String,
-    },
-})
+        owner: mongoose.Types.ObjectId,
+        ImgUrl: String,
+        title: String,
+        description: String,
+        start: Date,
+        end: Date,
+
+    })
 
 const Experience = model("Experience", ExperienceSchema);
 module.exports = {

@@ -36,7 +36,6 @@ module.exports = {
       }
 
       req.user = userFind;
-      console.log("req.user: ",req.user)
       next();
     } catch (error) {
       console.log(error);
