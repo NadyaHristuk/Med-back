@@ -1,16 +1,13 @@
 const {Schema, model} = require("mongoose");
-
-const AnalyzeSchema = new Schema(
+const mongoose = require("mongoose");
+const ColleagueSchema = new Schema(
     {
-        patient: String,
-        doctor: String,
-        dateStart: Date,
-        dateEnd: Date,
-        result: String,
+        owner: mongoose.Types.ObjectId,
+        Colleague: mongoose.Types.ObjectId,
     }
 );
 
-const Analyze = model("Analyze", AnalyzeSchema);
+const Colleague = model("AColleague", ColleagueSchema);
 module.exports = {
-    Analyze
+    Colleague
 };

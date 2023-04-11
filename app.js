@@ -8,6 +8,7 @@ const usersRouter = require("./routes/users");
 const infoRouter = require("./routes/info");
 const experienceRouter = require("./routes/experience");
 const appointmentRouter = require("./routes/appointment");
+const colleagueRouter = require("./routes/colleague");
 const analyzeRouter = require("./routes/analyze");
 
 const swaggerDocument = require("./swagger.json");
@@ -29,6 +30,7 @@ app.use("/user", usersRouter);
 app.use("/info", infoRouter);
 app.use("/experience", experienceRouter);
 app.use("/appointment", appointmentRouter);
+app.use("/colleague", colleagueRouter);
 app.use("/analyze", analyzeRouter);
 
 
