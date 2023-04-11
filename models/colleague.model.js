@@ -1,5 +1,6 @@
 const {Schema, model} = require("mongoose");
 const mongoose = require("mongoose");
+
 const ColleagueSchema = new Schema(
     {
         owner: mongoose.Types.ObjectId,

@@ -13,11 +13,13 @@ const UserInfoSchema = new Schema(
         userImgUrl: String
     }
 );
+
 UserInfoSchema.methods.toWeb = function () {
     let json = this.toJSON();
     json.id = this._id; //this is for the front end
     return json;
 };
+
 const UserInfo = model("userInfos", UserInfoSchema);
 module.exports = {
     UserInfo
