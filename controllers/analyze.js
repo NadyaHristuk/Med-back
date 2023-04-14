@@ -1,4 +1,7 @@
 const {Analyze} = require("../models/Analyze.model");
+const {
+    User,
+  } = require("../models/User.model.js");
 
 module.exports.getAnalyze = async (req, res) => {
     console.log("getAnalyze: ",req.user);
@@ -14,6 +17,7 @@ module.exports.updateAnalyze = async (req, res) => {
 
 module.exports.addAnalyze = async (req, res) => {
     console.log("addExperience: ",req.user);
+
     const analyze = await Analyze.create({...req.body } )
     return res.status(200).json(analyze);
 }

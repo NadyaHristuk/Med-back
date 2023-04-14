@@ -1,12 +1,17 @@
 const {Schema, model} = require("mongoose");
+const mongoose = require("mongoose");
 
 const AnalyzeSchema = new Schema(
     {
-        patient: String,
-        doctor: String,
+        owner:  mongoose.Types.ObjectId,
+        doctor:  mongoose.Types.ObjectId,
+        description: String,
+        result: String,
+        preview: String,
+        anamnesis: String, 
+        date: String,       
         dateStart: Date,
         dateEnd: Date,
-        result: String,
     }
 );
 
