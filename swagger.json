@@ -936,40 +936,6 @@
               }
             }
           },
-
-          "404": {
-            "description": "Not found",
-            "content": {}
-          },
-          "500": {
-            "description": "Server error",
-            "content": {}
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Colleague"
-        ],
-        "summary": "Get one notice",
-        "parameters": [],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOneNotice"
-                }
-              }
-            }
-          },
-
           "404": {
             "description": "Not found",
             "content": {}
@@ -986,7 +952,7 @@
         "tags": [
           "Colleague"
         ],
-        "summary": "Get one notice",
+        "summary": "Get colleague by  owner{id}",
         "parameters": [
           {
             "in": "path",
@@ -1022,13 +988,70 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "Colleague"
+        ],
+        "summary": "update one Colleague by _id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The  Colleague ID"
+          }
+        ],
+        "requestBody": {
+          "description": "Update's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCurrentUserColleagueRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOneNotice"
+                }
+              }
+            }
+          },
 
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Colleague"
         ],
         "summary": "Get one notice",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The Notice ID"
+          }
+        ],
         "security": [
           {
             "Bearer": []
@@ -1973,6 +1996,14 @@
             "example": true
           },
           "insertedId": {
+            "type": "string",
+            "example": "6439206309faa09eaf44c15e"
+          }
+        }
+      },
+      "UpdateCurrentUserColleagueRequest": {
+        "properties": {
+          "colleague": {
             "type": "string",
             "example": "6439206309faa09eaf44c15e"
           }
